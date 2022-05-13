@@ -1,46 +1,87 @@
 # include<stdio.h>
-# include<stdlib.h>
 # include<time.h>
+# include<stdlib.h>
 
 int main(){
-    int random_number, player_guesses, number_of_guesses = 0, is_alive, play_again;
+    // Declearing the variables and their values.
+    int correct_number, guess_number, isAlive = 1, chances = 10;
+
+    // Greetings and Precision.
+    printf("\nWelcome to guess the number game.\n");
+    printf("You have to enter any number between 1 to 100.\n");
+    printf("Remember you have only 10 number of chances.\n\n");
+    printf("===============X===============X===============X===============X===============");
+
+    // Generates a random number.
     srand(time(0));
-    random_number = rand()%100 + 1; //Generates a random number between 1 to 100
-    // printf("The random number is %d", random_number);
-    is_alive = 1; 
+    correct_number = (rand() % 100) + 1;
 
-    printf("Welcome to guess no. game\n");
-    printf("Guess a number between 1 to 100\n");
-    printf("You have 10 no. of guesses\n");
+    while(isAlive != 0){
+        
+        // Getting an user input.
+        printf("\n\nPlease enter any guess number between 1 to 100:\n");
+        scanf("%d", &guess_number);
 
-    while(is_alive){
-        printf("Please enter between between 1 to 100:-\n");
-        scanf("%d", & player_guesses);
-        // printf("%d", player_guesses);
+        // printf("%d", guess_number);
+        if(chances > 1){
+                if(guess_number > correct_number){
+                    chances--;
+                    printf("Please enter a smaller number\n");
+                    printf("You have %d number of chances left\n", chances);
+                    printf("Your previous input was %d\n", guess_number);
+                }
+                else if(guess_number < correct_number){
+                    chances--;
+                    printf("Please enter a larger number\n");
+                    printf("You have %d number of chances left\n", chances);
+                    printf("Your previous input was %d\n", guess_number);
+                }
+                else{
+                    printf("Congratulations!! \nIt took you %d number of chances to win.\n", 10 - chances + 1);
+                    printf("===============X===============X===============X===============X===============\n");
+                    chances = 10;
+                    printf("Do you want to play again.\nIf yes press '1' else press '0'.");
+                    scanf("%d", &isAlive);
+                    switch(isAlive){
+                        case 1:
+                            srand(time(0));
+                            correct_number = (rand() % 100) + 1;
+                            break;
 
-        if(player_guesses > random_number){
-            printf("please enter a lower number.\n");
-        }
-        else if  (player_guesses < random_number) {
-            printf("please enter a greater number.\n");
+                        case 0:
+                            printf("\nThanks for playing.");
+                            exit(0);
+
+                        default:
+                            printf("\nInvalid option.");
+                            printf("\nThe game has been closed successfully.");
+                    }
+                }
         }
         else{
-            printf("Congrates, You won the game.\n");
-            printf("It took you %d number of guesses\n", number_of_guesses);
-            is_alive = 0;
-            printf("do you want to play again. (2 for yes and 03for no)\n");
-            scanf("%c", &play_again);
-            if(play_again != 1){
-                printf("Thank you for playing the game\n");
-            }
-            else{
-                play_again = 1;
-            }
+            printf("You lost.\nThe correct number was %d\n", correct_number);
+            printf("===============X===============X===============X===============X===============\n");
+            chances = 10;
+            printf("Do you want to play again.\nIf yes press '1' else press '0'.");
+            scanf("%d", &isAlive);
+            switch(isAlive){
+                case 1:
+                    srand(time(0));
+                    correct_number = (rand() % 100) + 1;
+                    break;
 
+                case 0:
+                    printf("\nThanks for playing.");
+                    exit(0);
+
+                default:
+                    printf("\nInvalid option.");
+                    printf("\nThe game has been closed successfully.");
+            }
         }
-        number_of_guesses += 1;
-    }
-    
 
+    }
+
+    
     return 0;
 }
